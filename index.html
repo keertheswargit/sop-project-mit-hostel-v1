@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Smart Digital Laundry &amp; Store Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ============ STUDENT LOGIN SCREEN ============ -->
+<section id="screen-login" class="screen active login-screen">
+  <div class="login-wrap">
+    <div class="brand-mark">
+      <div class="logo-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 3h12l1 4v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7l1-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="13.5" r="1.4" fill="currentColor"/><path d="M9 6.2h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <h1>Digital Laundry &amp; Store Card</h1>
+      <p class="brand-sub">Rajarajan Nagar Hostel &middot; Block C</p>
+    </div>
+
+    <form class="login-form" id="login-form">
+      <label class="field">
+        <span>Register Number</span>
+        <input type="text" id="input-regno" placeholder="e.g. 21CS1042" value="21CS1042" autocomplete="off" />
+      </label>
+      <label class="field">
+        <span>Password</span>
+        <input type="password" id="input-password" placeholder="••••••••" value="••••••••" autocomplete="off" />
+      </label>
+      <button type="submit" class="btn btn-primary btn-block">Log In</button>
+      <button type="button" class="link-btn">Forgot Password?</button>
+    </form>
+
+    <button type="button" class="staff-link-btn" id="btn-goto-staff">Staff Verification Login →</button>
+  </div>
+</section>
+
+<!-- ============ STAFF LOGIN SCREEN ============ -->
+<section id="screen-staff-login" class="screen login-screen">
+  <div class="login-wrap">
+    <div class="brand-mark">
+      <div class="logo-badge staff-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8.5" r="3.4" stroke="currentColor" stroke-width="1.5"/><path d="M5 20c1.3-3.6 4-5.4 7-5.4s5.7 1.8 7 5.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <h1>Staff Verification</h1>
+      <p class="brand-sub">Laundry &amp; Store staff login only</p>
+    </div>
+
+    <form class="login-form" id="staff-login-form">
+      <label class="field">
+        <span>Username</span>
+        <input type="text" id="staff-input-username" placeholder="staff" autocomplete="off" />
+      </label>
+      <label class="field">
+        <span>Password</span>
+        <input type="password" id="staff-input-password" placeholder="••••" autocomplete="off" />
+      </label>
+      <p class="field-error" id="staff-login-error"></p>
+      <button type="submit" class="btn btn-primary btn-block">Staff Log In</button>
+    </form>
+
+    <button type="button" class="staff-link-btn" id="btn-back-to-student">← Back to Student Login</button>
+  </div>
+</section>
+
+<!-- ============ STAFF VERIFICATION PANEL ============ -->
+<section id="screen-staff" class="screen staff-screen">
+  <div class="staff-wrap">
+    <header class="staff-topbar">
+      <div>
+        <p class="staff-topbar-title">Staff Verification</p>
+        <p class="staff-topbar-sub">Enter a token to verify and confirm a transaction</p>
+      </div>
+      <button class="btn btn-ghost" id="btn-staff-logout">Log Out</button>
+    </header>
+
+    <div class="staff-search-row">
+      <input type="text" id="staff-token-input" class="staff-token-input" placeholder="Enter Token e.g. LDY-1025" autocomplete="off" />
+      <button class="btn btn-primary" id="btn-staff-search">Search Token</button>
+    </div>
+
+    <p class="field-error" id="staff-search-error"></p>
+
+    <div class="status-card staff-result" id="staff-result" hidden>
+      <p class="staff-result-token" id="staff-result-token">LDY-1025</p>
+
+      <div class="detail-list">
+        <div class="detail-row"><span>Student</span><b id="staff-result-name">—</b></div>
+        <div class="detail-row"><span>Register No.</span><b id="staff-result-regno">—</b></div>
+        <div class="detail-row"><span>Module</span><b id="staff-result-type">—</b></div>
+        <div class="detail-row"><span>Service</span><b id="staff-result-service">—</b></div>
+        <div class="detail-row" id="staff-result-weight-row"><span>Weight</span><b id="staff-result-weight">—</b></div>
+        <div class="detail-row" id="staff-result-cloth-row"><span>Cloth Details</span><b id="staff-result-cloth">—</b></div>
+        <div class="detail-row"><span>Amount</span><b id="staff-result-amount">—</b></div>
+        <div class="detail-row"><span>Wallet Balance</span><b id="staff-result-balance">—</b></div>
+        <div class="detail-row"><span>Status</span><b id="staff-result-status">—</b></div>
+      </div>
+
+      <button class="btn btn-primary btn-block" id="btn-confirm-transaction">Confirm Transaction</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STUDENT APP SHELL ============ -->
+<div id="app-shell" class="app-shell">
+
+  <header class="topbar">
+    <div class="topbar-title" id="topbar-title">Home</div>
+  </header>
+
+  <main class="app-main" id="app-main">
+
+    <!-- ---------- HOME / DASHBOARD ---------- -->
+    <section id="page-home" class="page active">
+      <p class="greeting">Welcome back, <span id="home-name">Hasiba</span> 👋</p>
+
+      <article class="mini-card">
+        <div class="mini-card-row">
+          <div>
+            <p class="mini-card-label">Hostel Block</p>
+            <p class="mini-card-value" id="home-block">C-2, Room 214</p>
+          </div>
+          <div>
+            <p class="mini-card-label">Card Status</p>
+            <p class="mini-card-value" id="home-status">ACTIVE</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="balance-card">
+        <div class="balance-top">
+          <p class="balance-label">Wallet Balance</p>
+          <span class="balance-pill">Laundry &amp; Store</span>
+        </div>
+        <p class="balance-number">₹<span id="balance-amount">0</span></p>
+        <button class="btn btn-fee" id="btn-pay-fee">Simulate Hostel Fee Payment (+₹1000)</button>
+      </article>
+
+      <div class="quick-row">
+        <button class="quick-action" data-nav="laundry">
+          <span class="quick-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M6 3h12l1 4v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7l1-4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="4" stroke="currentColor" stroke-width="1.6"/></svg></span>
+          Digital Laundry Card
+        </button>
+        <button class="quick-action" data-nav="store">
+          <span class="quick-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 8 6 4h12l2 4M4 8v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V8M4 8h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 12a3 3 0 0 0 6 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+          Store Card
+        </button>
+      </div>
+
+      <h2 class="section-title">Your Hostel Card</h2>
+      <div class="card-preview" data-nav="card">
+        <div class="id-card" id="id-card-home">
+          <div class="id-card-top">
+            <span class="id-card-brand">HOSTEL DIGITAL CARD</span>
+            <span class="id-card-chip" aria-hidden="true"></span>
+          </div>
+          <p class="id-card-name" id="card-name-1">Hasiba</p>
+          <div class="id-card-row">
+            <div><span>Reg No.</span><b id="card-reg-1">21CS1042</b></div>
+            <div><span>Room</span><b id="card-room-1">C-214</b></div>
+          </div>
+          <div class="id-card-bottom">
+            <span id="card-id-1">Card ID: HL-2026-0842</span>
+            <span class="id-card-tap">Tap to view →</span>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-title">Transaction History</h2>
+      <div class="mini-list" id="home-recent"></div>
+    </section>
+
+    <!-- ---------- DIGITAL CARD ---------- -->
+    <section id="page-card" class="page">
+      <p class="page-intro">Show this card to laundry or store staff for verification.</p>
+
+      <div class="id-card id-card-large">
+        <div class="id-card-perforation" aria-hidden="true"></div>
+        <div class="id-card-top">
+          <span class="id-card-brand">HOSTEL DIGITAL CARD</span>
+          <span class="id-card-chip" aria-hidden="true"></span>
+        </div>
+        <p class="id-card-name" id="card-name-2">Hasiba</p>
+        <div class="id-card-grid">
+          <div><span>Register No.</span><b id="card-reg-2">21CS1042</b></div>
+          <div><span>Department</span><b id="card-dept-2">Computer Science &amp; Engineering</b></div>
+          <div><span>Hostel Block</span><b id="card-block-2">C - Ladies Hostel</b></div>
+          <div><span>Room No.</span><b id="card-room-2">214</b></div>
+        </div>
+        <div class="id-card-balance">
+          <span>Wallet Balance</span>
+          <b>₹<span id="card-balance-2">0</span></b>
+        </div>
+        <div class="id-card-balance">
+          <span>Card Status</span>
+          <b class="status-badge" id="card-status-2">ACTIVE</b>
+        </div>
+        <div class="qr-wrap">
+          <div class="qr-placeholder" aria-label="QR code placeholder">
+            <svg viewBox="0 0 100 100" width="100%" height="100%">
+              <rect width="100" height="100" fill="none"/>
+              <g fill="currentColor">
+                <rect x="6" y="6" width="24" height="24"/><rect x="12" y="12" width="12" height="12" fill="#fff"/>
+                <rect x="70" y="6" width="24" height="24"/><rect x="76" y="12" width="12" height="12" fill="#fff"/>
+                <rect x="6" y="70" width="24" height="24"/><rect x="12" y="76" width="12" height="12" fill="#fff"/>
+                <rect x="40" y="6" width="6" height="6"/><rect x="52" y="6" width="6" height="6"/>
+                <rect x="40" y="18" width="6" height="6"/><rect x="60" y="18" width="6" height="6"/>
+                <rect x="40" y="40" width="6" height="6"/><rect x="52" y="40" width="6" height="6"/><rect x="64" y="40" width="6" height="6"/>
+                <rect x="40" y="52" width="6" height="6"/><rect x="76" y="52" width="6" height="6"/>
+                <rect x="40" y="64" width="6" height="6"/><rect x="52" y="64" width="6" height="6"/>
+                <rect x="40" y="76" width="6" height="6"/><rect x="64" y="76" width="6" height="6"/>
+                <rect x="40" y="88" width="6" height="6"/><rect x="52" y="88" width="6" height="6"/><rect x="76" y="88" width="6" height="6"/>
+                <rect x="70" y="70" width="6" height="6"/><rect x="82" y="70" width="6" height="6"/><rect x="70" y="82" width="6" height="6"/><rect x="88" y="88" width="6" height="6"/>
+              </g>
+            </svg>
+          </div>
+          <p class="qr-caption">Scan for staff verification (coming soon)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- LAUNDRY MODULE ---------- -->
+    <section id="page-laundry" class="page">
+      <p class="page-intro">Choose your laundry service. A token will be generated for staff verification.</p>
+
+      <h2 class="section-title small-top">Service Type</h2>
+      <div class="option-grid" id="service-type-options">
+        <button type="button" class="option-btn" data-service="Wash Only">Wash Only</button>
+        <button type="button" class="option-btn" data-service="Wash & Dry">Wash &amp; Dry</button>
+        <button type="button" class="option-btn" data-service="Ironing">Ironing</button>
+      </div>
+
+      <div id="laundry-weight-block" hidden>
+        <h2 class="section-title small-top">Weight</h2>
+        <div class="option-grid" id="weight-options">
+          <button type="button" class="option-btn" data-weight="5 KG">5 KG</button>
+          <button type="button" class="option-btn" data-weight="8 KG">8 KG</button>
+        </div>
+      </div>
+
+      <div id="laundry-ironing-block" hidden>
+        <h2 class="section-title small-top">Cloth Type</h2>
+        <select class="select-field" id="ironing-cloth-type">
+          <option value="Shirt">Shirt</option>
+          <option value="Pants">Pants</option>
+          <option value="T-Shirt">T-Shirt</option>
+          <option value="Bedsheet">Bedsheet</option>
+          <option value="Towel">Towel</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <h2 class="section-title small-top">Quantity</h2>
+        <div class="stepper stepper-standalone">
+          <button type="button" class="step-btn minus" id="iron-qty-minus" aria-label="Decrease quantity">−</button>
+          <span class="step-value" id="iron-qty-value">1</span>
+          <button type="button" class="step-btn plus" id="iron-qty-plus" aria-label="Increase quantity">+</button>
+        </div>
+      </div>
+
+      <div class="total-bar" id="laundry-amount-bar" hidden>
+        <span>Estimated Amount</span>
+        <b>₹<span id="laundry-amount">0</span></b>
+      </div>
+
+      <p class="field-error" id="laundry-form-error"></p>
+
+      <button class="btn btn-primary btn-block" id="btn-generate-laundry-token" disabled>Generate Laundry Token</button>
+    </section>
+
+    <!-- ---------- STORE MODULE ---------- -->
+    <section id="page-store" class="page">
+      <p class="page-intro">Enter your purchase amount from the hostel store. A token will be generated for staff verification.</p>
+
+      <label class="field">
+        <span>Item / Purchase Description (optional)</span>
+        <input type="text" id="store-description" placeholder="e.g. Soap, snacks, stationery" autocomplete="off" />
+      </label>
+
+      <label class="field">
+        <span>Purchase Amount (₹)</span>
+        <input type="number" id="store-amount" placeholder="0" min="1" step="1" autocomplete="off" />
+      </label>
+
+      <p class="field-error" id="store-form-error"></p>
+
+      <button class="btn btn-primary btn-block" id="btn-generate-store-token">Generate Store Token</button>
+    </section>
+
+    <!-- ---------- TRANSACTION HISTORY ---------- -->
+    <section id="page-history" class="page">
+      <p class="page-intro">Every laundry and store transaction on your wallet.</p>
+
+      <div class="wallet-stats">
+        <div class="wallet-stat">
+          <p class="wallet-stat-label">Remaining Balance</p>
+          <p class="wallet-stat-value">₹<span id="stat-balance">0</span></p>
+        </div>
+        <div class="wallet-stat">
+          <p class="wallet-stat-label">Total Spent</p>
+          <p class="wallet-stat-value">₹<span id="stat-spent">0</span></p>
+        </div>
+        <div class="wallet-stat">
+          <p class="wallet-stat-label">Transactions</p>
+          <p class="wallet-stat-value" id="stat-count">0</p>
+        </div>
+      </div>
+
+      <div class="timeline" id="history-list"></div>
+    </section>
+
+    <!-- ---------- PROFILE ---------- -->
+    <section id="page-profile" class="page">
+      <div class="profile-head">
+        <div class="avatar">HF</div>
+        <div>
+          <p class="profile-name">Hasiba</p>
+          <p class="profile-sub">21CS1042</p>
+        </div>
+      </div>
+
+      <div class="detail-list">
+        <div class="detail-row"><span>Department</span><b>Computer Science &amp; Engineering</b></div>
+        <div class="detail-row"><span>Hostel</span><b>Ladies Hostel</b></div>
+        <div class="detail-row"><span>Block</span><b>C</b></div>
+        <div class="detail-row"><span>Room No.</span><b>214</b></div>
+        <div class="detail-row"><span>Phone</span><b>+91 98765 43210</b></div>
+        <div class="detail-row"><span>Email</span><b>hasiba.cs21@college.edu</b></div>
+        <div class="detail-row"><span>Card Status</span><b id="profile-status">ACTIVE</b></div>
+      </div>
+
+      <h2 class="section-title">Future Enhancements</h2>
+      <div class="detail-list future-list">
+        <div class="detail-row"><span>QR Code Verification</span></div>
+        <div class="detail-row"><span>Hostel ERP Integration</span></div>
+        <div class="detail-row"><span>Automatic Hostel Fee Credit</span></div>
+        <div class="detail-row"><span>Digital Receipt Download</span></div>
+        <div class="detail-row"><span>Online Payment Integration</span></div>
+      </div>
+
+      <button class="btn btn-ghost btn-block" id="btn-logout">Log Out</button>
+    </section>
+
+  </main>
+
+  <!-- ---------- BOTTOM NAV ---------- -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-nav="home">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M4 11.5 12 5l8 6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10.5V19a1 1 0 0 0 1 1h3v-5h4v5h3a1 1 0 0 0 1-1v-8.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="nav-btn" data-nav="laundry">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 3h12l1 4v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7l1-4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="4" stroke="currentColor" stroke-width="1.6"/></svg>
+      <span>Laundry</span>
+    </button>
+    <button class="nav-btn" data-nav="store">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M4 8 6 4h12l2 4M4 8v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V8M4 8h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Store</span>
+    </button>
+    <button class="nav-btn" data-nav="history">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 1 1 2.6 5.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M4 12V8m0 4h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 8v4.3l3 1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>History</span>
+    </button>
+    <button class="nav-btn" data-nav="profile">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8.5" r="3.4" stroke="currentColor" stroke-width="1.6"/><path d="M5 20c1.3-3.6 4-5.4 7-5.4s5.7 1.8 7 5.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span>Profile</span>
+    </button>
+  </nav>
+</div>
+
+<!-- ============ MODALS / OVERLAYS ============ -->
+<div class="overlay" id="overlay">
+  <div class="sheet" id="confirm-sheet">
+    <div class="sheet-handle"></div>
+    <h3>Token Generated</h3>
+    <p class="sheet-sub">Show this token to laundry/store staff for verification. Amount is deducted only after staff confirms.</p>
+    <div class="sheet-list" id="sheet-list"></div>
+    <div class="sheet-total">
+      <span>Token Number</span>
+      <b id="sheet-token">—</b>
+    </div>
+    <div class="sheet-total">
+      <span>Status</span>
+      <b id="sheet-status">Waiting for Verification</b>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn btn-primary btn-block" id="btn-close-sheet">Done</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
