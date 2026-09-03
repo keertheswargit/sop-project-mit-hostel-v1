@@ -2,7 +2,7 @@
 
 A mobile-first prototype that replaces the physical hostel laundry card with a
 digital one. Built as a college project, structured so it can later grow into
-a full **Hostel Companion App** (laundry, complaints, mess, maintenance,
+a full **Hostel Companion App** (laundry, complaints, mess, maintenance and
 announcements).
 
 ## Live demo
